@@ -1,0 +1,35 @@
+{
+    "Creatures": [
+        "---Abberations",
+        "Nothic",
+        
+        "---Beasts",
+        
+        "---Celestials",
+        
+        "---Constructs",
+        "Animated Armor",
+        "Helmed Horror",
+        
+        "---Dragons",
+        
+        "---Elementals",
+        "Air Elemental",
+        
+        "---Fey",
+        
+        "---Fiends",
+        
+        "---Giants",
+        
+        "---Monstrosities",
+        "Griffon",
+        
+        "---Oozes",
+        
+        "---Plants",
+        
+        "---Undead"
+        
+    ]
+}

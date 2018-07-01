@@ -1,0 +1,35 @@
+/*
+        "size": "large",
+        "classification": "monstrosity",
+        "alignment": "unaligned",
+        "ac": 12,
+        "hp": 59,
+        "speed": "30 ft., fly 80 ft.",
+        "str": 18,
+        "dex": 15,
+        "con": 16,
+        "int": 2,
+        "wis": 13,
+        "cha": 8,
+        "cr": 2,
+        "atk": [
+            {
+                name: "Beak",
+                type: "Melee Weapon",
+                freq: 1,
+                toHit: 6,
+                reach: "5 ft.",
+                dmg: "1d8 + 4",
+                dmgType: "piercing"
+            },
+            {
+                name: "Claw",
+                type: "Melee Weapon",
+                freq: 1,
+                toHit: 6,
+                reach: "5 ft.",
+                dmg: "2d6 + 4",
+                dmgType: "slashing"
+            }
+        ]
+        */

@@ -1,0 +1,24 @@
+{
+    "Colossus": {
+        "name": "Colossus",
+        "classification": "player",
+        "alignment": "unaligned",
+        "ac": 18,
+        "hp": 80,
+        "speed": "30 ft.",
+        "cr": "2",
+        "atks": [
+            {
+                "name": "Giant Slayer",
+                "type": "Melee Weapon",
+                "numAtks": 2,
+                "atkBonus": 10,
+                "reach": "5 ft.",
+                "dmgDieNum": 1,
+                "dmgDieSize": 8,
+                "dmgBonus": 6,
+                "dmgType": "slashing"
+            }
+        ]
+    }
+}

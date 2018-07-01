@@ -1,0 +1,14 @@
+{
+    "name": "Nothic",
+    "classification": "abberation",
+    "alignment": "neutral evil",
+    "ac": 15,
+    "hp": 45,
+    "speed": "30 ft.",
+    "cr": "2",
+    "atkBonus": 4,
+    "dmgDieNum": 1,
+    "dmgDieSize": 6,
+    "dmgBonus": 3,
+    "numAtks": 2
+}

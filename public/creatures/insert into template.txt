@@ -1,0 +1,1 @@
+INSERT INTO creatures (name, classificationId, alignmentId, ac, hp, speed, cr) VALUES ();

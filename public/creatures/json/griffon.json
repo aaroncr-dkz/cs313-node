@@ -1,0 +1,33 @@
+{
+    "name": "Griffon",
+    "classification": "monstrosity",
+    "alignment": "unaligned",
+    "ac": 12,
+    "hp": 59,
+    "speed": "30 ft., fly 80 ft.",
+    "cr": "2",
+    "atks": [
+        {
+            "name": "Beak",
+            "type": "Melee Weapon",
+            "numAtks": 1,
+            "atkBonus": 6,
+            "reach": "5 ft.",
+            "dmgDieNum": 1,
+            "dmgDieSize": 8,
+            "dmgBonus": 4,
+            "dmgType": "piercing"
+        },
+        {
+            "name": "Claw",
+            "type": "Melee Weapon",
+            "numAtks": 1,
+            "atkBonus": 6,
+            "reach": "5 ft.",
+            "dmgDieNum": 2,
+            "dmgDieSize": 6,
+            "dmgBonus": 4,
+            "dmgType": "slashing"
+        }
+    ]
+}

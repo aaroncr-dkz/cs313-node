@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Battle Manager</title>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width">
+    <link href="style.css" rel="stylesheet" type="text/css">
+    <script src="script.js" type="text/javascript"></script>
+</head>
+
+<body onload="callAllCreatures()">
+    <header>
+        <h1>Fight it Out!</h1>
+        <nav></nav>
+    </header>
+
+    <div id="container">
+        <main>
+            <section id="leftColumn">
+                <h2>Belligerents</h2>
+                <ol id="battlers">
+                    <li>
+                        <table>
+                            <tr>
+                                <td class="combatantName">Colossus</td>
+                                <td class="inititive">15</td>
+                            </tr>
+                        </table>
+                        <div class="combatant" id="Colossus">
+                            <section class="hpColumn">
+                                <h3>HP</h3>
+                                <div class="hpBox"><span class="hpBar"></span></div>
+                                <p class="hpValue">80/80</p>
+                            </section>
+
+                            <div>
+                                <img src="creatures/images/player/colossus.png" alt=""/>
+                            </div>
+
+                            <section class="combatantRightSide">
+                                <section class="actionRow">
+                                    <div>
+                                        <h3>Action</h3>
+                                        <div class="actionCateBar actionBar"></div>
+                                        <button class="atkBtn" onclick="attack('Colossus')">Attack</button>
+                                        <select class="atkTarget">
+                                            <option value="Griffon">Griffon</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <h3>Bonus Action</h3>
+                                        <div class="actionCateBar BactionBar"></div>
+                                        <button class="atkBtn" onclick="useBonusActn('Colossus')">Use</button>
+                                    </div>
+                                    <div>
+                                        <h3>Reaction</h3>
+                                        <div class="actionCateBar reactionBar"></div>
+                                        <button class="atkBtn" onclick="useReactn('Colossus')">Use</button>
+                                    </div>
+                                </section>
+                            </section>
+
+                            <section>
+                                <h2></h2>
+                            </section>
+
+                        </div>
+                    </li>
+                </ol>
+
+            </section>
+
+            <section id="rightColumn">
+                <h2>Battle Manager</h2>
+
+                <section>
+                    <label>Select a Creature:</label>
+                    <select id="creatureSelect">
+                    </select>
+
+                    <button onclick="addCombatant()">Add to Combat</button>
+
+                    <h3>Battle Log</h3>
+                    <ol id="battleLog">
+                    </ol>
+                    <p></p>
+                    <button onclick="endTurn()">End Turn</button>
+                </section>
+            </section>
+        </main>
+    </div>
+
+    <footer id="footer">
+    </footer>
+
+
+</body>
+
+</html>

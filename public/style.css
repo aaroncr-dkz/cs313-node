@@ -1,0 +1,203 @@
+body {
+    background-image: url(images/background.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    color: whitesmoke;
+}
+
+main {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+
+    padding: 12px;
+}
+
+#leftColumn {
+    width: 65%;
+}
+
+#rightColumn {
+    width: 32%;
+    background-color: rgba(128, 128, 128, 0.7);
+    padding: 12px;
+    height: 475px;
+}
+
+#battlers {
+    list-style-type: none;
+    padding-left: 0;
+
+    overflow-y: auto;
+    max-height: 380px;
+
+}
+
+#battlers li {
+    margin-bottom: 25px;
+}
+
+/*******************************
+* Combatant
+*******************************/
+
+.combatantName {
+    font-size: 1.25em;
+    font-family: "Book Antiqua", serif;
+}
+
+.inititive {
+    font-size: 1.25em;
+    font-family: "Book Antiqua", monospace;
+    padding-left: 10px;
+}
+
+.combatant {
+    display: flex;
+
+    background-image: url(images/combatant_background.jpg);
+    background-size: cover;
+
+
+    border: 2px outset gold;
+    border-radius: 7px;
+
+    width: 610px;
+    height: 120px;
+    padding: 7px;
+
+    color: whitesmoke;
+}
+
+.combatant img {
+    width: 120px;
+    height: auto;
+}
+
+.combatantRightSide {
+    width: 390px;
+    height: 100px;
+    margin-left: 25px;
+}
+
+/*******************************
+* Action Bars and Buttons
+*******************************/
+
+.actionRow {
+    display: flex;
+    justify-content: center;
+}
+
+.actionRow h3 {
+    font-size: 0.9em;
+    font-family: "Book Antiqua", serif;
+    font-weight: normal;
+    text-align: center;
+
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.actionRow button {
+
+}
+
+.actionCateBar {
+    border: 2px outset gold;
+    width: 130px;
+    height: 15px;
+}
+
+
+.actionBar {
+    background-color: crimson;
+    border-radius: 5px 0 0 5px;
+    transition: background-color 1.5s;
+}
+
+.BactionBar {
+    background-color: cornflowerblue;
+    transition: background-color 1.5s;
+}
+
+.reactionBar {
+    background-color: chartreuse;
+    border-radius: 0 5px 5px 0;
+    transition: background-color 1.5s;
+}
+
+.atkBtn {
+    width: 45px;
+    text-align: center;
+    padding: 0;
+}
+
+.specialAtk {
+    width: 135px;
+    text-align: center;
+    padding: 0;
+}
+
+.atkTarget {
+    display: inline;
+    width: 85px;
+}
+
+/*******************************
+* HP Column
+*******************************/
+.hpColumn {
+    margin-left: 5px;
+    margin-right: 15px;
+    width: 40px;
+
+    text-align: center;
+}
+
+.hpColumn h3 {
+    font-size: 0.9em;
+    font-family: "Book Antiqua", serif;
+    font-weight: normal;
+
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-left: 2px;
+}
+
+.hpBox {
+    position: relative;
+    border: 2px outset gold;
+    border-radius: 12px;
+
+    width: 20px;
+    margin-left: 8px;
+    height: 80px;
+    background-color: darkgrey;
+}
+
+.hpBar {
+    display: block;
+    position: absolute;
+    border-radius: 12px;
+
+    bottom: 0;
+    background-color: red;
+    height: 100%;
+    width: 100%;
+    transition: height 0.75s;
+}
+
+.hpValue {
+    margin: 0;
+}
+
+/*******************************
+* Battle Log
+*******************************/
+#battleLog {
+    height: 275px;
+    overflow-y: scroll;
+    list-style-type: none;
+    padding-left: 0;
+}
