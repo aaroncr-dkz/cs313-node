@@ -1,6 +1,8 @@
-var express = require('express');
+const express = require('express');
 var app = express();
-var url = require('url');
+const path = require('path')
+const url = require('url')
+const PORT = process.env.PORT || 5000
 
 /*---------------------------------
  * MySQL
@@ -16,18 +18,19 @@ var con = mysql.createConnection({
 /*---------------------------------
  * Server
  --------------------------------*/
-app.set("port", 5000);
+//app.set("port", 5000);
+app.set('views', path.join(__dirname, 'views'))
+app.set('view engine', 'ejs')
 app.use(express.static(__dirname + "/public"));
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
+
 
 app.get("/creature/:creature", getCreature);
 app.get("/attacks/:creatureId", getCreatureAttacks);
 app.get("/specials/:creatureId", getSpecialAttacks);
 
-app.listen(app.get("port"), function () {
-    console.log("Listening on port: " + app.get("port"));
-});
+app.listen(PORT, () => console.log(`Listening on ${ PORT }`));
 
 /*---------------------------------
  * getCreature
