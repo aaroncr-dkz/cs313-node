@@ -7,13 +7,20 @@ const PORT = process.env.PORT || 5000
 /*---------------------------------
  * MySQL
  --------------------------------*/
-var mysql = require('mysql');
-var con = mysql.createConnection({
-    host: "localhost",
-    user: "iClient",
-    password: "z15H8rpmxGo7luVS",
-    database: "battle_manager"
-});
+//var mysql = require('mysql');
+//var con = mysql.createConnection({
+//    host: "localhost",
+//    user: "iClient",
+//    password: "z15H8rpmxGo7luVS",
+//    database: "battle_manager"
+//});
+
+/*---------------------------------
+ * postGres
+ --------------------------------*/
+const { Pool } = require("pg"); // This is the postgres database connection module.
+const connectionString = process.env.DATABASE_URL;
+const con = new Pool({connectionString: connectionString});
 
 /*---------------------------------
  * Server
@@ -57,7 +64,7 @@ function getCreatureFromDB(creature, callback) {
     var sql = "SELECT cr.id, cr.name, cr.size, cl.classificationName, cr.ac, cr.hp, cr.dex "
             + "FROM creatures cr INNER JOIN classifications cl "
             + "ON cl.classificationId = cr.classificationId "
-            + "WHERE cr.name = ?";
+            + "WHERE cr.name = $1";
 
     // We now set up an array of all the parameters we will pass to fill the
     // placeholder spots we left in the query.
@@ -106,7 +113,7 @@ function getAttacksFromDB(id, callback) {
     var sql = "SELECT a.name, a.type, a.atkBonus, a.reach, a.dmgDieNum, a.dmgDieSize, a.dmgBonus, dt.dmgTypeName, ca.freq "
             + "FROM creature_attacks ca INNER JOIN attacks a ON ca.atkID = a.atkId "
             + "INNER JOIN damagetypes dt ON dt.dmgTypeId = a.dmgTypeId "
-            + "WHERE ca.creatureId = ?";
+            + "WHERE ca.creatureId = $1::int";
 
     // We now set up an array of all the parameters we will pass to fill the
     // placeholder spots we left in the query.
@@ -154,7 +161,7 @@ function getSpecialsFromDB(id, callback) {
     // Set up the SQL that we will use for our query. 
     var sql = "SELECT * "
             + "FROM creature_specials cs INNER JOIN specialattacks sa ON cs.specAtkId = sa.specAtkId"
-            + "WHERE cs.creatureId = ?";
+            + "WHERE cs.creatureId = $1::int";
 
     // We now set up an array of all the parameters we will pass to fill the
     // placeholder spots we left in the query.
