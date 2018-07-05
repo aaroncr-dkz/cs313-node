@@ -138,11 +138,11 @@ function battle(attacker, atckersElement, defender, defendersElement) {
     for (var i = 0; i < numAtks; i++) {
         var atkName = attacker.atks[i].name;
         var atkType = attacker.atks[i].type;
-        var atkBonus = attacker.atks[i].atkBonus;
+        var atkBonus = attacker.atks[i].atkbonus;
         var atkReach = attacker.atks[i].reach;
-        var dmgDieNum = attacker.atks[i].dmgDieNum;
-        var dmgDieSize = attacker.atks[i].dmgDieSize;
-        var dmgBonus = attacker.atks[i].dmgBonus;
+        var dmgDieNum = attacker.atks[i].dmgdienum;
+        var dmgDieSize = attacker.atks[i].dmgdiesize;
+        var dmgBonus = attacker.atks[i].dmgbonus;
 
         var newLog = "<strong>" + atkName + ".</strong> <em>" + atkType + " Attack:</em> +" + atkBonus + " to hit, " +
             "reach " + atkReach + ", one target. <em>Hit:</em> (" + dmgDieNum + "d" + dmgDieSize + " + " + dmgBonus + ") " +

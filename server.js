@@ -175,13 +175,13 @@ function getSpecialsFromDB(id, callback) {
             callback(err, null);
         }
 
-        console.log("Found result: " + JSON.stringify(result));
+        console.log("Found result: " + JSON.stringify(result.rows));
 
         // When someone else called this function, they supplied the function
         // they wanted called when we were all done. Call that function now
         // and pass it the results.
 
         // (The first parameter is the error variable, so we will pass null.)
-        callback(null, result);
+        callback(null, result.rows);
     });
 }
