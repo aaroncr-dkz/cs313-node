@@ -80,7 +80,7 @@ function buildCombatantCard(combatant) {
     newItem.innerHTML = "<table><tr><td class='combatantName'>" + creature.name + "</td><td class='inititive'></td></tr></table>" +
         "<div class='combatant' id='" + creature.name + "'><section class='hpColumn'><h3>HP</h3><div class='hpBox'>" +
         "<span class='hpBar'></span></div><p class='hpValue'>" + creature.hp + "/" + creature.hp + "</p></section><div>" +
-        "<img src='creatures/images/" + creature.classification + "/" + creature.name + ".png'/></div><section class='combatantRightSide'>" +
+        "<img src='creatures/images/" + creature.classificationname + "/" + creature.name + ".png'/></div><section class='combatantRightSide'>" +
         "<section class='actionRow'><div><h3>Action</h3><div class='actionCateBar actionBar'></div><button class='atkBtn' " +
         "onclick='attack(\"" + creature.name + "\")'>Attack</button><select class='atkTarget'>" +
         "<option value='Colossus'>Colossus</option></select></div><div><h3>Bonus Action</h3><div class='actionCateBar BactionBar'>" +
@@ -143,7 +143,7 @@ function battle(attacker, atckersElement, defender, defendersElement) {
         var dmgDieNum = attacker.atks[i].dmgdienum;
         var dmgDieSize = attacker.atks[i].dmgdiesize;
         var dmgBonus = attacker.atks[i].dmgbonus;
-		
+		console.log(atkName + ", " + atkType + ", " + atkBonus + ", " + atkReach + ", " + dmgDieNum + ", " + dmgDieSize + ", " + dmgBonus);
 
         var newLog = "<strong>" + atkName + ".</strong> <em>" + atkType + " Attack:</em> +" + atkBonus + " to hit, " +
             "reach " + atkReach + ", one target. <em>Hit:</em> (" + dmgDieNum + "d" + dmgDieSize + " + " + dmgBonus + ") " +
