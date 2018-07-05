@@ -12,13 +12,13 @@ var combatants = {
             {
                 "name": "Giant Slayer",
                 "type": "Melee Weapon",
-                "numAtks": 2,
-                "atkBonus": 10,
+                "numatks": 2,
+                "atkbonus": 10,
                 "reach": "5 ft.",
-                "dmgDieNum": 1,
-                "dmgDieSize": 8,
-                "dmgBonus": 6,
-                "dmgType": "slashing"
+                "dmgdienum": 1,
+                "dmgdiesize": 8,
+                "dmgbonus": 6,
+                "dmgtype": "slashing"
             }
         ]
     }
@@ -72,6 +72,7 @@ function addToCombatantsObject(json, combatant) {
 
 function buildCombatantCard(combatant) {
     var creature = combatants[combatant];
+	console.log(creature);
 
     var newItem = document.createElement("li");
     var text = document.createTextNode("");
