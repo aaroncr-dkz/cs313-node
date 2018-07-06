@@ -73,7 +73,11 @@ function addToCombatantsObject(json, combatant) {
 }
 
 function buildCombatantCard(json, combatant) {
-    combatants[combatant].atks = [json[0], json[1]];
+	combatants[combatant].atks = [];
+	for(var i = 0; i < json.length; i++) {
+		combatants[combatant].atks[i] = json[i];
+	}
+    
     var creature = combatants[combatant];
     var noSpace = creature.name.replace(' ', '_');
     var inititive = (rollDie(20) + Math.floor((creature.dex - 10) / 2));
