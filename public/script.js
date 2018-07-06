@@ -156,7 +156,7 @@ function battle(attacker, atckersElement, defender, defendersElement) {
             var atkType = attacker.atks[i].type;
             var atkBonus = attacker.atks[i].atkbonus;
             var atkReach = attacker.atks[i].reach;
-            var dmgDieNum = attacker.atks[i].dmgdieNum;
+            var dmgDieNum = attacker.atks[i].dmgdienum;
             var dmgDieSize = attacker.atks[i].dmgdieSize;
             var dmgBonus = attacker.atks[i].dmgdonus;
 
