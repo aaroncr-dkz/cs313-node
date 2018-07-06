@@ -80,6 +80,7 @@ function buildCombatantCard(json, combatant) {
     
     var creature = combatants[combatant];
     var noSpace = creature.name.replace(' ', '_');
+	noSpace = noSpace.toLowerCase();
     var inititive = (rollDie(20) + Math.floor((creature.dex - 10) / 2));
     var specialAtk = "";
    //<button class="specialAtk">Rotting Gaze</button>
@@ -150,7 +151,7 @@ function battle(attacker, atckersElement, defender, defendersElement) {
 
     // roll all main attacks
     for (var i = 0; i < numAtks; i++) {
-        console.log(attacker.atks[i]);
+        //console.log(attacker.atks[i]);
         for (var j = 0; j < attacker.atks[i].freq; j++) {
             var atkName = attacker.atks[i].name;
             var atkType = attacker.atks[i].type;
