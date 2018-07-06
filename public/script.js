@@ -2,7 +2,7 @@ var combatants = {
 
     "Colossus": {
         "name": "Colossus",
-        "classification": "player",
+        "classificationname": "player",
         "alignment": "unaligned",
         "ac": 18,
         "hp": 80,
@@ -13,12 +13,12 @@ var combatants = {
                 "name": "Giant Slayer",
                 "type": "Melee Weapon",
                 "freq": 2,
-                "atkBonus": 10,
+                "atkbonus": 10,
                 "reach": "5 ft.",
-                "dmgDieNum": 1,
-                "dmgDieSize": 8,
-                "dmgBonus": 6,
-                "dmgType": "slashing"
+                "dmgdienum": 1,
+                "dmgdiesize": 8,
+                "dmgbonus": 6,
+                "dmgtypename": "slashing"
             }
         ]
     }
@@ -87,7 +87,7 @@ function buildCombatantCard(json, combatant) {
             + "<td class='inititive'>" + inititive + "</td></tr></table>"
             + "<div class='combatant' id='" + creature.name + "'><section class='hpColumn'><h3>HP</h3>"
             + "<div class='hpBox'><span class='hpBar'></span></div><p class='hpValue'>" + creature.hp + "/"
-            + creature.hp + "</p></section><div><img src='creatures/images/" + creature.classificationName + "/"
+            + creature.hp + "</p></section><div><img src='creatures/images/" + creature.classificationname + "/"
             + noSpace + ".png'/></div><section class='combatantRightSide'>"
             + "<section class='actionRow'><div><h3>Action</h3><div class='actionCateBar actionBar'></div>"
             + "<button class='atkBtn' onclick='attack(\"" + creature.name + "\")'>Attack</button>"
@@ -141,8 +141,8 @@ function battle(attacker, atckersElement, defender, defendersElement) {
     var atckerName = attacker.name;
     var numAtks = attacker.atks.length;
 
-    console.log(attacker);
-    console.log(numAtks);
+    //console.log(attacker);
+    //console.log(numAtks);
 
     // roll all main attacks
     for (var i = 0; i < numAtks; i++) {
@@ -150,15 +150,15 @@ function battle(attacker, atckersElement, defender, defendersElement) {
         for (var j = 0; j < attacker.atks[i].freq; j++) {
             var atkName = attacker.atks[i].name;
             var atkType = attacker.atks[i].type;
-            var atkBonus = attacker.atks[i].atkBonus;
+            var atkBonus = attacker.atks[i].atkbonus;
             var atkReach = attacker.atks[i].reach;
-            var dmgDieNum = attacker.atks[i].dmgDieNum;
-            var dmgDieSize = attacker.atks[i].dmgDieSize;
-            var dmgBonus = attacker.atks[i].dmgBonus;
+            var dmgDieNum = attacker.atks[i].dmgdieNum;
+            var dmgDieSize = attacker.atks[i].dmgdieSize;
+            var dmgBonus = attacker.atks[i].dmgdonus;
 
             var newLog = "<strong>" + atkName + ".</strong> <em>" + atkType + " Attack:</em> +" + atkBonus + " to hit, " +
                     "reach " + atkReach + ", one target. <em>Hit:</em> (" + dmgDieNum + "d" + dmgDieSize + " + " +
-                    dmgBonus + ") " + attacker.atks[i].dmgTypeName + " damage<br>";
+                    dmgBonus + ") " + attacker.atks[i].dmgtypename + " damage<br>";
             addToBattleLog(newLog);
 
             attackIt(atckerName, atkBonus, defender, dmgDieNum, dmgDieSize, dmgBonus);
