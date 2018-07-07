@@ -125,6 +125,7 @@ function createMiniHeads() {
 
     for (var i = 0; i < length; i++) {
         var name = combatants[battlers[i].innerText].name.replace(' ', '_');
+		name = name.toLowerCase();
         html += "<li><img class='miniHead' src='creatures/images/" + combatants[battlers[i].innerText].classificationname
                 + "/" + name + ".png' /></li>";
     }
