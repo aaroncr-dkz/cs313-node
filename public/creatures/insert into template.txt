@@ -1,1 +1,5 @@
-INSERT INTO creatures (name, classificationId, alignmentId, ac, hp, speed, cr) VALUES ();
+INSERT INTO creatures (name, size, classificationId, alignmentId, ac, hp, speed, cr, dex) VALUES ();
+
+INSERT INTO attacks (name, type, atkBonus, reach, dmgDieNum, dmgDieSize, dmgBonus, dmgTypeId) VALUES ("Longsword", "Melee Weapon", 6, 5, 1, '8', 4, 2);
+
+INSERT INTO creature_attacks (creatureId, atkId, freq) VALUES ();

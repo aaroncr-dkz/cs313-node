@@ -6,11 +6,42 @@ body {
 }
 
 main {
+    padding: 12px;
+}
+
+h2 {
+    margin: 0;
+}
+
+/*******************************
+* MiniHeads
+*******************************/
+#miniHeadsSection {
+    height: 86.5px;
+}
+
+#miniHeads {
+    list-style-type: none;
+    
+    display: flex;
+    flex-flow: row nowrap;
+    
+    width: 500px;
+    overflow-x: hidden;
+}
+
+#miniHeads img {
+    width: 50px;
+    height: auto;
+}
+
+/*******************************
+* MainArea
+*******************************/
+#mainArea {
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;
-
-    padding: 12px;
 }
 
 #leftColumn {
@@ -21,9 +52,12 @@ main {
     width: 32%;
     background-color: rgba(128, 128, 128, 0.7);
     padding: 12px;
-    height: 475px;
+    height: 400px;
 }
 
+/*******************************
+* Battlers
+*******************************/
 #battlers {
     list-style-type: none;
     padding-left: 0;
@@ -40,7 +74,6 @@ main {
 /*******************************
 * Combatant
 *******************************/
-
 .combatantName {
     font-size: 1.25em;
     font-family: "Book Antiqua", serif;
@@ -196,7 +229,7 @@ main {
 * Battle Log
 *******************************/
 #battleLog {
-    height: 275px;
+    height: 250px;
     overflow-y: scroll;
     list-style-type: none;
     padding-left: 0;

@@ -23,6 +23,7 @@ var combatants = {
         ]
     }
 };
+var topOfTheRound = 0;
 
 /***********************************************************************
  * onLoad AJAX and buildSelect for adding a combatant to the battle
@@ -106,7 +107,28 @@ function buildCombatantCard(json, combatant) {
     var battlers = document.getElementById("battlers");
 
     battlers.insertBefore(newItem, battlers.childNodes[0]); // Insert <li> before the first child of <ul>
+	
+	if (topOfTheRound < inititive) {
+        topOfTheRound = inititive;
+    }
+	
     placeInInititive(); // now sort everything so it is back in inititive order
+	createMiniHeads();
+}
+
+function createMiniHeads() {
+    //var battlers = Object.keys(combatants);
+    var battlers = document.getElementsByClassName("combatantName");
+    var length = battlers.length;
+    var list = document.getElementById("miniHeads");
+    var html = "";
+
+    for (var i = 0; i < length; i++) {
+        var name = combatants[battlers[i].innerText].name.replace(' ', '_');
+        html += "<li><img class='miniHead' src='creatures/images/" + combatants[battlers[i].innerText].classificationname
+                + "/" + name + ".png' /></li>";
+    }
+    list.innerHTML = html;
 }
 
 /***********************************************************************
@@ -219,11 +241,33 @@ function calcDamage(result, dieNum, dieSize, dmgBonus) {
  ***********************************************************************/
 function endTurn() {
     rotateQueue();
+	endRound();
+}
+
+function endRound() {
+    var battlers = document.getElementById("battlers");
+    var currentTurn = battlers.firstElementChild;
+    var checkInit = currentTurn.querySelector(".inititive").innerText * 1;
+
+    if (topOfTheRound === checkInit) {
+        var actionBars = document.getElementsByClassName('actionBar');
+        var BactionBars = document.getElementsByClassName('BactionBar');
+        var reactionBars = document.getElementsByClassName('reactionBar');
+
+        var length = actionBars.length;
+
+        for (var i = 0; i < length; i++) {
+            actionBars[i].style.backgroundColor = "crimson";
+            BactionBars[i].style.backgroundColor = "cornflowerblue";
+            reactionBars[i].style.backgroundColor = "chartreuse";
+        }
+    }
 }
 
 function rotateQueue() {
     var battlers = document.querySelectorAll('#battlers li');
     document.querySelector('#leftColumn > ol').append(battlers[0]);
+	createMiniHeads();
 }
 
 function placeInInititive() {
