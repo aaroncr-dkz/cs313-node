@@ -46,11 +46,16 @@ CREATE TABLE attacks (
 --
 
 INSERT INTO attacks (atkId, name, type, atkBonus, reach, dmgDieNum, dmgDieSize, dmgBonus, dmgTypeId) VALUES
-(2, 'Beak', 'Melee Weapon', 6, 5, 1, '8', 4, 1),
-(3, 'Claw', 'Melee Weapon', 6, 5, 2, '6', 4, 2),
-(4, 'Slam', 'Melee Weapon', 4, 5, 1, '6', 2, 3),
-(5, 'Claw', 'Melee Weapon', 5, 5, 1, '6', 3, 2),
-(6, 'Slam', 'Melee Weapon', 8, 5, 2, '8', 5, 3);
+(2, 'Beak', 'Melee Weapon', 6, 5, 1, 8, 4, 1),
+(3, 'Claw', 'Melee Weapon', 6, 5, 2, 6, 4, 2),
+(4, 'Slam', 'Melee Weapon', 4, 5, 1, 6, 2, 3),
+(5, 'Claw', 'Melee Weapon', 5, 5, 1, 6, 3, 2),
+(6, 'Slam', 'Melee Weapon', 8, 5, 2, 8, 5, 3),
+(7, 'Longsword', 'Melee Weapon', 6, 5, 1, 8, 4, 2),
+(8, 'Slam', 'Melee Weapon', 7, 5, 2, 8, 4, 3),
+(9, 'Slam', 'Melee Weapon', 8, 10, 2, 8, 5, 3),
+(10, 'Bite', 'Melee Weapon', 4, 5, 1, 6, 2, 1),
+(11, 'Claw', 'Melee Weapon', 4, 5, 1, 6, 2, 2);
 
 -- --------------------------------------------------------
 
@@ -110,7 +115,10 @@ INSERT INTO creatures (id, name, size, classificationId, alignmentId, ac, hp, sp
 (2, 'Nothic', 'Medium', 1, 6, 15, 45, '30 ft.', 2, 16),
 (3, 'Animated Armor', 'Medium', 4, 10, 18, 33, '30 ft.', 1, 11),
 (4, 'Helmed Horror', 'Medium', 4, 5, 20, 60, '30 ft., fly 30 ft.', 4, 13),
-(5, 'Air Elemental', 'Large', 6, 5, 15, 90, '0 ft., fly 90 ft. (hover)', 5, 20);
+(5, 'Air Elemental', 'Large', 6, 5, 15, 90, '0 ft., fly 90 ft. (hover)', 5, 20),
+(6, 'Water Elemental', 'Large', 6, 5, 14, 114, '30 ft., swim 90 ft.', 5, 14),
+(7, 'Earth Elemental', 'Large', 6, 5, 17, 126, '30 ft., burrow 30 ft.', 5, 8),
+(8, 'Gargoyle', 'Medium', 6, 9, 15, 52, '30 ft., fly 60 ft.', 2, 11);
 
 -- --------------------------------------------------------
 
@@ -133,7 +141,11 @@ INSERT INTO creature_attacks (creatureId, atkId, freq) VALUES
 (1, 3, 1),
 (2, 5, 2),
 (3, 4, 2),
-(5, 6, 2);
+(5, 6, 2),
+(6, 8, 2),
+(7, 9, 2),
+(8, 10, 1),
+(8, 11, 1);
 
 -- --------------------------------------------------------
 

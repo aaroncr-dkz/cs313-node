@@ -20,14 +20,16 @@ var combatants = {
                 "dmgbonus": 6,
                 "dmgtypename": "slashing"
             }
-        ]
+        ],
+		"dex": "15",
+        "con": "18"
     }
 };
 var topOfTheRound = 0;
 
-/***********************************************************************
+/*------------------------------------------------------------------------------
  * onLoad AJAX and buildSelect for adding a combatant to the battle
- ***********************************************************************/
+ *------------------------------------------------------------------------------*/
 function callAllCreatures() {
     var httpRequest = new XMLHttpRequest();
 
@@ -57,9 +59,9 @@ function buildSelect(json) {
     }
 }
 
-/***********************************************************************
+/*------------------------------------------------------------------------------
  * functions to add a combatant card to the battlers list
- ***********************************************************************/
+ *------------------------------------------------------------------------------*/
 function addCombatant() {
     var combatant = document.getElementById("creatureSelect").value;
     if (combatant.includes("---")) {
@@ -73,36 +75,59 @@ function addToCombatantsObject(json, combatant) {
     getCreatureAttacks(combatants[combatant].id, combatant);
 }
 
+function addCreatureAttacks(json, combatant) {
+    combatants[combatant].atks = [];
+    for (var i = 0; i < json.length; i++) {
+        combatants[combatant].atks[i] = json[i];
+    }
+
+    if (combatants[combatant].specials === 1) {
+        getSpecialAttacks(combatants[combatant].id, combatant);
+    } else {
+        buildCombatantCard(json, combatant);
+    }
+}
+
 function buildCombatantCard(json, combatant) {
-	combatants[combatant].atks = [];
-	for(var i = 0; i < json.length; i++) {
-		combatants[combatant].atks[i] = json[i];
-	}
-    
-    var creature = combatants[combatant];
+	var creature = combatants[combatant];
     var noSpace = creature.name.replace(' ', '_');
-	noSpace = noSpace.toLowerCase();
     var inititive = (rollDie(20) + Math.floor((creature.dex - 10) / 2));
     var specialAtk = "";
-   //<button class="specialAtk">Rotting Gaze</button>
+
+    if (combatants[combatant].specials === 1) {
+        combatants[combatant].specAtks = [];
+        for (var i = 0; i < json.length; i++) {
+            combatants[combatant].specatks[i] = json[i];
+
+            if (combatants[combatant].specatks[i].recharge !== 0) {
+                combatants[combatant].specatks[i].isCharged = true;
+            }
+        }
+
+        var atkId = creature.specatks[0].name.replace(' ', '_');
+
+        specialAtk += "<button id='" + atkId + "' class='specialAtk' onclick='attack(\"" + creature.name + "\", \""
+                + creature.specatks[0].name + "\")'>" + creature.specatks[0].name + "</button>";
+    }
 
     var newItem = document.createElement("li");
     var text = document.createTextNode("");
     newItem.appendChild(text);
     newItem.innerHTML = "<table><tr><td class='combatantName'>" + creature.name + "</td>"
             + "<td class='inititive'>" + inititive + "</td></tr></table>"
-            + "<div class='combatant' id='" + creature.name + "'><section class='hpColumn'><h3>HP</h3>"
+            + "<div class='combatant' id='" + noSpace + "'><section class='hpColumn'><h3>HP</h3>"
             + "<div class='hpBox'><span class='hpBar'></span></div><p class='hpValue'>" + creature.hp + "/"
             + creature.hp + "</p></section><div><img src='creatures/images/" + creature.classificationname + "/"
             + noSpace + ".png'/></div><section class='combatantRightSide'>"
             + "<section class='actionRow'><div><h3>Action</h3><div class='actionCateBar actionBar'></div>"
             + "<button class='atkBtn' onclick='attack(\"" + creature.name + "\")'>Attack</button>"
-            + "<select class='atkTarget'><option value='Colossus'>Colossus</option></select></div>"
+            + "<select class='atkTarget'><option value='Colossus'>Colossus</option></select>" + specialAtk + "</div>"
             + "<div><h3>Bonus Action</h3><div class='actionCateBar BactionBar'></div>"
             + "<button class='atkBtn' onclick='useBonusActn(\"" + noSpace + "\")'>Use</button></div>"
             + "<div><h3>Reaction</h3><div class='actionCateBar reactionBar'></div>"
             + "<button class='atkBtn' onclick='useReactn(\"" + creature.name + "\")'>Use</button></div></section></section>"
-            + "<section><h2></h2></section>";
+            + "<section><h2></h2></section><img src='images/remove.png' alt='remove creature' class='remove' onclick='"
+            + "removeCreature(\"" + creature.name + "\")'>";
 
     var battlers = document.getElementById("battlers");
 
@@ -114,6 +139,7 @@ function buildCombatantCard(json, combatant) {
 	
     placeInInititive(); // now sort everything so it is back in inititive order
 	createMiniHeads();
+	addToPlayersTargets();
 }
 
 function createMiniHeads() {
@@ -132,9 +158,9 @@ function createMiniHeads() {
     list.innerHTML = html;
 }
 
-/***********************************************************************
+/*------------------------------------------------------------------------------
  *
- ***********************************************************************/
+ *------------------------------------------------------------------------------*/
 function addToBattleLog(newLog) {
     var log = document.getElementById("battleLog");
 
@@ -146,20 +172,68 @@ function addToBattleLog(newLog) {
     log.insertBefore(newItem, log.childNodes[0]); // Insert <li> before the first child of <ul>
 }
 
-/***********************************************************************
+function addToPlayersTargets() {
+    var battlers = document.getElementsByClassName("combatantName");
+    var length = battlers.length;
+    var lists = document.getElementsByClassName("playerChar");
+    var html = "";
+
+    for (var i = 0; i < length; i++) {
+        if (!battlers[i].classList.contains("pc")) {
+            var noSpace = combatants[battlers[i].innerText].name.replace(' ', '_');
+            var name = combatants[battlers[i].innerText].name;
+            html += "<option value='" + noSpace + "'>" + name + "</option>";
+        }
+    }
+
+    length = lists.length;
+    for (var i = 0; i < length; i++) {
+        lists[i].innerHTML = html;
+    }
+
+    /*
+     var creatures = json['Creatures'];
+     var select = document.getElementById("creatureSelect");
+     
+     var length = creatures.length;
+     for (var i = 0; i < length; i++) {
+     var option = document.createElement("option");
+     option.text = creatures[i];
+     option.setAttribute("value", creatures[i]);
+     select.add(option);
+     }
+     */
+}
+
+/*------------------------------------------------------------------------------
  *
- ***********************************************************************/
+ *------------------------------------------------------------------------------*/
 function attack(atckerId) {
+    atckerId = atckerId.replace(' ', '_');
+
+    // get the attackers DOM element
     var atckersElement = document.getElementById(atckerId);
     var atcker = atckerId.split('-');
     atcker = atcker[0];
 
-    var defender = atckersElement.getElementsByClassName("atkTarget")[0].value;
-    defendersElement = document.getElementById(defender);
+    // get the defender. Check monsters first, than players to see which kind is defending
+    var defender = atckersElement.getElementsByClassName("atkTarget")[0];
+    if (defender == null) {
+        defender = atckersElement.getElementsByClassName("playerChar")[0].value;
+    } else {
+        defender = defender.value;
+    }
+    var defendersElement = document.getElementById(defender);
 
-    battle(atcker, atckersElement, defender, defendersElement);
+    atcker = atcker.replace('_', ' ');
+    defender = defender.replace('_', ' ');
 
-    atckersElement.getElementsByClassName("actionBar")[0].style.backgroundColor = "#87686f";
+    // fight it out
+    if (special == null) {
+        battle(atcker, atckersElement, defender, defendersElement);
+    } else {
+        savingThrow(atcker, atckersElement, special, defender, defendersElement);
+    }
 }
 
 function battle(attacker, atckersElement, defender, defendersElement) {
@@ -169,12 +243,8 @@ function battle(attacker, atckersElement, defender, defendersElement) {
     var atckerName = attacker.name;
     var numAtks = attacker.atks.length;
 
-    //console.log(attacker);
-    //console.log(numAtks);
-
     // roll all main attacks
     for (var i = 0; i < numAtks; i++) {
-        //console.log(attacker.atks[i]);
         for (var j = 0; j < attacker.atks[i].freq; j++) {
             var atkName = attacker.atks[i].name;
             var atkType = attacker.atks[i].type;
@@ -195,32 +265,151 @@ function battle(attacker, atckersElement, defender, defendersElement) {
 
     newLog = "--------------------------------------------------------";
     addToBattleLog(newLog);
+	useAction(atckersElement);
 
     return;
 }
 
 function attackIt(atckrName, atkBonus, defender, dmgDieNum, dmgDieSize, dmgBonus) {
     var result = rollDie(20);
+	var defenderName = defender.name.replace(' ', '_');
+    var atkColor = "White";
+	
+	if (result === 20) {
+        atkColor = "Lime";
+    } else if (result === 1) {
+        atkColor = "Red";
+    }
 
-    var newLog = atckrName + " rolled: " + (result + atkBonus) + " vs. " + defender.name + " AC " + defender.ac;
+    var newLog = atckrName + " rolled: <span style='color: " + atkColor + "'>" + (result + atkBonus) + "</span> vs. "
+            + defender.name + " AC " + defender.ac;
     addToBattleLog(newLog);
 
     // see if the result is greater than or equal to target's AC if so, roll for damage
     if ((result + atkBonus) >= defender.ac || result === 20) {
         var damage = calcDamage(result, dmgDieNum, dmgDieSize, dmgBonus);
-        var newHealth = modifyHealth(defender.name, (damage * -1));
+
+        var newHealth = modifyHealth(defenderName, (damage * -1));
 
         newLog = atckrName + " dealt: " + damage + " damage";
         addToBattleLog(newLog);
 
         newLog = "<br>" + defender.name + ": " + newHealth + "HP remaining";
         addToBattleLog(newLog);
+
+        if (isFoeSlain(newHealth)) {
+            removeCreature(defender.name, true);
+        }
     } else {
         newLog = "<br>";
         addToBattleLog(newLog);
     }
 }
 
+/*------------------------------------------------------------------------------
+ *
+ *------------------------------------------------------------------------------*/
+function savingThrow(attacker, atckersElement, special, defender, defendersElement) {
+
+    attacker = combatants[attacker];
+    defender = combatants[defender];
+
+    var specAtk;
+    var specNum;
+    for (var i = 0; i < attacker.specAtks.length; i++) {
+        if (attacker.specAtks[i].name === special) {
+            specAtk = attacker.specAtks[i];
+            specNum = i;
+            
+            if (attacker.specAtks[i].isCharged === false) {
+                return;
+            }
+            break;
+        }
+    }
+
+    var specName = specAtk.name;
+    var descrip = specAtk.description;
+
+    var dc = specAtk.dc;
+    var save = specAtk.save;
+    var saveResult = specAtk.saveResult;
+
+    var dmgDieNum = specAtk.dmgDieNum;
+    var dmgDieSize = specAtk.dmgDieSize;
+
+    var newLog = "<strong>" + specName + ".</strong> " + descrip + "<br>";
+    addToBattleLog(newLog);
+
+    saveIt(attacker.name, dc, save, saveResult, defender, dmgDieNum, dmgDieSize);
+
+    newLog = "--------------------------------------------------------";
+    addToBattleLog(newLog);
+    useAction(atckersElement);
+    
+    console.log(combatants[attacker.name]);
+    if (combatants[attacker.name].specAtks[specNum].recharge !== 0) {
+        combatants[attacker.name].specAtks[specNum].isCharged = false;
+        
+        var specId = specAtk.name.replace(' ', '_');
+        document.getElementById(specId).style.backgroundColor = "whitesmoke";
+        document.getElementById(specId).style.color = "red";
+    }
+
+    return;
+}
+
+function saveIt(atckrName, dc, save, saveResult, defender, dmgDieNum, dmgDieSize) {
+    var result = rollDie(20);
+    var defenderName = defender.name.replace(' ', '_');
+    var saveBonus = Math.floor((defender.con - 10) / 2);
+    var saveName;
+
+    switch (save) {
+        case "con":
+            saveName = "Constitution";
+            break;
+        case "str":
+            saveName = "Strength";
+            break;
+    }
+
+    var newLog = defenderName + " rolled: " + (result + saveBonus) + " vs. DC" + dc + " " + saveName + " saving throw";
+    addToBattleLog(newLog);
+
+    // see if the result is less than the DC if so, roll for damage. Unless the save result is half damage
+    if ((result + saveBonus) < dc || saveResult === "Half Damage") {
+        var damage = calcDamage(result - 1, dmgDieNum, dmgDieSize, 0);
+
+        if ((result + saveBonus) >= dc) {
+            damage = Math.floor(damage / 2);
+            newLog = "Save success! Half damage taken";
+            addToBattleLog(newLog);
+        }
+
+        var newHealth = modifyHealth(defenderName, (damage * -1));
+
+        newLog = atckrName + " dealt: " + damage + " damage";
+        addToBattleLog(newLog);
+
+        newLog = "<br>" + defender.name + ": " + newHealth + "HP remaining";
+        addToBattleLog(newLog);
+
+        if (isFoeSlain(newHealth)) {
+            removeCreature(defender.name, true);
+        }
+    } else {
+        newLog = "Save success! No effect";
+        addToBattleLog(newLog);
+
+        newLog = "<br>";
+        addToBattleLog(newLog);
+    }
+} 
+ 
+/*------------------------------------------------------------------------------
+ *
+ *------------------------------------------------------------------------------*/
 function calcDamage(result, dieNum, dieSize, dmgBonus) {
     var damage = 0;
 
@@ -237,9 +426,9 @@ function calcDamage(result, dieNum, dieSize, dmgBonus) {
     return damage;
 }
 
-/***********************************************************************
+/*------------------------------------------------------------------------------
  *
- ***********************************************************************/
+ *------------------------------------------------------------------------------*/
 function endTurn() {
     rotateQueue();
 	endRound();
@@ -251,6 +440,8 @@ function endRound() {
     var checkInit = currentTurn.querySelector(".inititive").innerText * 1;
 
     if (topOfTheRound === checkInit) {
+        checkRecharge(battlers);
+
         var actionBars = document.getElementsByClassName('actionBar');
         var BactionBars = document.getElementsByClassName('BactionBar');
         var reactionBars = document.getElementsByClassName('reactionBar');
@@ -301,9 +492,13 @@ function placeInInititive() {
     }
 }
 
-/***********************************************************************
+function checkRecharge(battlers) {
+
+}
+
+/*------------------------------------------------------------------------------
  *
- ***********************************************************************/
+ *------------------------------------------------------------------------------*/
 function useBonusActn(id) {
     id = id.replace('_', ' ');
     var element = document.getElementById(id);
@@ -315,13 +510,17 @@ function useReactn(id) {
     element.getElementsByClassName("reactionBar")[0].style.backgroundColor = "#809966";
 }
 
-/***********************************************************************************
+function useAction(element) {
+    element.getElementsByClassName("actionBar")[0].style.backgroundColor = "#87686f";
+}
+
+/*------------------------------------------------------------------------------
  * RollDie()
  *
  * This function takes an INT as a parameter and uses that to determine the max
  * value on the random number generation. The function then returns the result.
  *
- ***********************************************************************************/
+ *------------------------------------------------------------------------------*/
 function rollDie(size) {
     var min = Math.ceil(1);
     var max = Math.floor(size);
@@ -330,20 +529,44 @@ function rollDie(size) {
     return result;
 }
 
-/***********************************************************************************
- * isFoeSlain()
- ***********************************************************************************/
+/*------------------------------------------------------------------------------
+ * 
+ *------------------------------------------------------------------------------*/
+function removeCreature(creature, byBattle) {
+    creature = creature.replace(' ', '_');
+    var battlers = document.getElementById("battlers");
+    var target = battlers.querySelector('#' + creature);
+    var deceased = target.parentElement;
+
+    var children = battlers.childNodes;
+    var length = children.length;
+
+    for (var i = 0; i < length; i++) {
+        if (children[i] === deceased) {
+            if (byBattle) {
+                setTimeout(function () {
+                    battlers.removeChild(battlers.childNodes[i]);
+                    createMiniHeads();
+                }, 1500);
+            } else {
+                battlers.removeChild(battlers.childNodes[i]);
+                createMiniHeads();
+            }
+            break;
+        }
+    }
+}
+
 function isFoeSlain(foeHP) {
-    // if creature 1 slew an enemy during its turn, reduce the number of foes
     if (foeHP <= 0) {
         return true;
     }
     return false;
 }
 
-/*****************************************************************************
+/*------------------------------------------------------------------------------
  * modifyHealth()
- *****************************************************************************/
+ *------------------------------------------------------------------------------*/
 function modifyHealth(combatantId, healthChange) {
     var combatant = document.getElementById(combatantId);
 
@@ -375,9 +598,9 @@ function modifyHealth(combatantId, healthChange) {
     return newHealth;
 }
 
-/***********************************************************************************
+/*------------------------------------------------------------------------------
  * getBaseCreature()
- ***********************************************************************************/
+ *------------------------------------------------------------------------------*/
 function getBaseCreature(combatant) {
     var httpRequest = new XMLHttpRequest();
     httpRequest.overrideMimeType("application/json");
@@ -404,7 +627,7 @@ function getCreatureAttacks(combatantId, combatantName) {
         if (this.readyState === 4 && this.status === 200) {
 
             newObj = JSON.parse(httpRequest.responseText);
-            buildCombatantCard(newObj, combatantName);
+            addCreatureAttacks(newObj, combatantName);
         }
     };
 

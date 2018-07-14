@@ -69,6 +69,16 @@ h2 {
 
 #battlers li {
     margin-bottom: 25px;
+    position: relative;
+}
+
+#battlers .remove {
+    position: absolute; 
+    left: 610px; 
+    bottom: 120px; 
+    width: 30px; 
+    height: 30px;
+    cursor: pointer;
 }
 
 /*******************************
@@ -170,9 +180,11 @@ h2 {
     width: 135px;
     text-align: center;
     padding: 0;
+    
+    transition: background-color 1.5s
 }
 
-.atkTarget {
+.atkTarget, .playerChar {
     display: inline;
     width: 85px;
 }
