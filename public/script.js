@@ -91,11 +91,12 @@ function addCreatureAttacks(json, combatant) {
 function buildCombatantCard(json, combatant) {
 	var creature = combatants[combatant];
     var noSpace = creature.name.replace(' ', '_');
+	var nameLower = noSpace.toLowerCase();
     var inititive = (rollDie(20) + Math.floor((creature.dex - 10) / 2));
     var specialAtk = "";
 
     if (combatants[combatant].specials === 1) {
-        combatants[combatant].specAtks = [];
+        combatants[combatant].specatks = [];
         for (var i = 0; i < json.length; i++) {
             combatants[combatant].specatks[i] = json[i];
 
@@ -118,7 +119,7 @@ function buildCombatantCard(json, combatant) {
             + "<div class='combatant' id='" + noSpace + "'><section class='hpColumn'><h3>HP</h3>"
             + "<div class='hpBox'><span class='hpBar'></span></div><p class='hpValue'>" + creature.hp + "/"
             + creature.hp + "</p></section><div><img src='creatures/images/" + creature.classificationname + "/"
-            + noSpace + ".png'/></div><section class='combatantRightSide'>"
+            + nameLower + ".png'/></div><section class='combatantRightSide'>"
             + "<section class='actionRow'><div><h3>Action</h3><div class='actionCateBar actionBar'></div>"
             + "<button class='atkBtn' onclick='attack(\"" + creature.name + "\")'>Attack</button>"
             + "<select class='atkTarget'><option value='Colossus'>Colossus</option></select>" + specialAtk + "</div>"
