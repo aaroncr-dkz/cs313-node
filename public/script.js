@@ -208,7 +208,7 @@ function addToPlayersTargets() {
 /*------------------------------------------------------------------------------
  *
  *------------------------------------------------------------------------------*/
-function attack(atckerId) {
+function attack(atckerId, special) {
     atckerId = atckerId.replace(' ', '_');
 
     // get the attackers DOM element

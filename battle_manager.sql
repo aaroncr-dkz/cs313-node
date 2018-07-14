@@ -103,7 +103,8 @@ CREATE TABLE creatures (
   hp 				INT 		NOT NULL,
   speed 			varchar(30)	NOT NULL,
   cr 				INT 		NOT NULL,
-  dex 				INT 		NOT NULL
+  dex 				INT 		NOT NULL,
+  specials 			INT 		NOT NULL
 );
 
 --
