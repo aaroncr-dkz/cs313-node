@@ -81,7 +81,7 @@ function addCreatureAttacks(json, combatant) {
         combatants[combatant].atks[i] = json[i];
     }
 
-    if (combatants[combatant].specials === 1) {
+    if (combatants[combatant].specials == 1) {
         getSpecialAttacks(combatants[combatant].id, combatant);
     } else {
         buildCombatantCard(json, combatant);
