@@ -61,7 +61,7 @@ function getCreatureFromDB(creature, callback) {
     //console.log(creature);
 
     // Set up the SQL that we will use for our query. 
-    var sql = "SELECT cr.id, cr.name, cr.size, cl.classificationName, cr.ac, cr.hp, cr.dex "
+    var sql = "SELECT cr.id, cr.name, cr.size, cl.classificationName, cr.ac, cr.hp, cr.dex, cr.specials "
             + "FROM creatures cr INNER JOIN classifications cl "
             + "ON cl.classificationId = cr.classificationId "
             + "WHERE cr.name = $1";
