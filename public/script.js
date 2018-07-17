@@ -352,8 +352,8 @@ function savingThrow(attacker, atckersElement, special, defender, defendersEleme
     useAction(atckersElement);
     
     console.log(combatants[attacker.name]);
-    if (combatants[attacker.name].specAtks[specNum].recharge !== 0) {
-        combatants[attacker.name].specAtks[specNum].isCharged = false;
+    if (combatants[attacker.name].specatks[specNum].recharge !== 0) {
+        combatants[attacker.name].specatks[specNum].isCharged = false;
         
         var specId = specAtk.name.replace(' ', '_');
         document.getElementById(specId).style.backgroundColor = "whitesmoke";
