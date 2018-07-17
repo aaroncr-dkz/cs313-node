@@ -94,6 +94,9 @@ function buildCombatantCard(json, combatant) {
 	var nameLower = noSpace.toLowerCase();
     var inititive = (rollDie(20) + Math.floor((creature.dex - 10) / 2));
     var specialAtk = "";
+	
+	console.log(combatants[combatant]);
+	console.log(combatants[combatant].specials);
 
     if (combatants[combatant].specials == 1) {
         combatants[combatant].specatks = [];
