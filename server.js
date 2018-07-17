@@ -160,7 +160,7 @@ function getSpecialsFromDB(id, callback) {
 
     // Set up the SQL that we will use for our query. 
     var sql = "SELECT * "
-            + "FROM creature_specials cs INNER JOIN specialattacks sa ON cs.specAtkId = sa.specAtkId"
+            + "FROM creature_specials cs INNER JOIN specialattacks sa ON cs.specAtkId = sa.specAtkId "
             + "WHERE cs.creatureId = $1::int";
 
     // We now set up an array of all the parameters we will pass to fill the
