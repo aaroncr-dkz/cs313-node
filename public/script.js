@@ -320,12 +320,12 @@ function savingThrow(attacker, atckersElement, special, defender, defendersEleme
 
     var specAtk;
     var specNum;
-    for (var i = 0; i < attacker.specAtks.length; i++) {
-        if (attacker.specAtks[i].name === special) {
-            specAtk = attacker.specAtks[i];
+    for (var i = 0; i < attacker.specatks.length; i++) {
+        if (attacker.specatks[i].name === special) {
+            specAtk = attacker.specatks[i];
             specNum = i;
             
-            if (attacker.specAtks[i].isCharged === false) {
+            if (attacker.specatks[i].isCharged === false) {
                 return;
             }
             break;
