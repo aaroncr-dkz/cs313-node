@@ -458,9 +458,9 @@ function endTurn() {
 function endRound() {
     var battlers = document.getElementById("battlers");
     var currentTurn = battlers.firstElementChild;
-    var checkInit = currentTurn.querySelector(".inititive").innerText * 1;
+    var checkTop = currentTurn.querySelector(".combatantName").innerText;
 
-    if (topOfTheRound === checkInit) {
+    if (topOfTheRound.name === checkTop) {
         checkRecharge(battlers);
 
         var actionBars = document.getElementsByClassName('actionBar');
