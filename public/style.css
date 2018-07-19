@@ -50,11 +50,11 @@ h2 {
 }
 
 #leftColumn {
-    width: 65%;
+    width: 64%;
 }
 
 #rightColumn {
-    width: 32%;
+    width: 33%;
     background-color: rgba(128, 128, 128, 0.7);
     padding: 12px;
     height: 400px;
