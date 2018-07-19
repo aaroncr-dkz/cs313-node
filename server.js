@@ -5,17 +5,6 @@ const url = require('url')
 const PORT = process.env.PORT || 5000
 
 /*---------------------------------
- * MySQL
- --------------------------------*/
-//var mysql = require('mysql');
-//var con = mysql.createConnection({
-//    host: "localhost",
-//    user: "iClient",
-//    password: "z15H8rpmxGo7luVS",
-//    database: "battle_manager"
-//});
-
-/*---------------------------------
  * postGres
  --------------------------------*/
 const { Pool } = require("pg"); // This is the postgres database connection module.
@@ -61,7 +50,7 @@ function getCreatureFromDB(creature, callback) {
     //console.log(creature);
 
     // Set up the SQL that we will use for our query. 
-    var sql = "SELECT cr.id, cr.name, cr.size, cl.classificationName, cr.ac, cr.hp, cr.dex, cr.specials "
+    var sql = "SELECT cr.id, cr.name, cr.size, cl.classificationName, cr.ac, cr.hp, cr.dex, cr. con, cr.specials "
             + "FROM creatures cr INNER JOIN classifications cl "
             + "ON cl.classificationId = cr.classificationId "
             + "WHERE cr.name = $1";
