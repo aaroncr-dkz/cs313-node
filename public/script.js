@@ -25,7 +25,11 @@ var combatants = {
         "con": "18"
     }
 };
-var topOfTheRound = 0;
+var topOfTheRound = {
+    "name": "",
+    "init": 0
+};
+var isAlly = false;
 
 /*------------------------------------------------------------------------------
  * onLoad AJAX and buildSelect for adding a combatant to the battle
@@ -94,6 +98,9 @@ function buildCombatantCard(json, combatant) {
 	var nameLower = noSpace.toLowerCase();
     var inititive = (rollDie(20) + Math.floor((creature.dex - 10) / 2));
     var specialAtk = "";
+	var team = "";
+    var teamClass = "";
+    var allyRing = "";
 
     if (combatants[combatant].specials == 1) {
         combatants[combatant].specatks = [];
@@ -110,19 +117,30 @@ function buildCombatantCard(json, combatant) {
         specialAtk += "<button id='" + atkId + "' class='specialAtk' onclick='attack(\"" + creature.name + "\", \""
                 + creature.specatks[0].name + "\")'>" + creature.specatks[0].name + "</button>";
     }
+	
+	isAlly = document.getElementById("asAlly").checked;
+    if(isAlly) {
+        team = "pc";
+        teamClass = "playerChar";
+        allyRing = "<img class='ally-ring' src='images/ally_ring.png'>";
+    }
+    else {
+        team = "monster";
+        teamClass = "atkTarget";
+    }
 
     var newItem = document.createElement("li");
     var text = document.createTextNode("");
     newItem.appendChild(text);
-    newItem.innerHTML = "<table><tr><td class='combatantName'>" + creature.name + "</td>"
+    newItem.innerHTML = "<table><tr><td class='combatantName " + team + "'>" + creature.name + "</td>"
             + "<td class='inititive'>" + inititive + "</td></tr></table>"
             + "<div class='combatant' id='" + noSpace + "'><section class='hpColumn'><h3>HP</h3>"
             + "<div class='hpBox'><span class='hpBar'></span></div><p class='hpValue'>" + creature.hp + "/"
             + creature.hp + "</p></section><div><img src='creatures/images/" + creature.classificationname + "/"
-            + nameLower + ".png'/></div><section class='combatantRightSide'>"
+            + nameLower + ".png'/>" + allyRing + "</div><section class='combatantRightSide'>"
             + "<section class='actionRow'><div><h3>Action</h3><div class='actionCateBar actionBar'></div>"
             + "<button class='atkBtn' onclick='attack(\"" + creature.name + "\")'>Attack</button>"
-            + "<select class='atkTarget'><option value='Colossus'>Colossus</option></select>" + specialAtk + "</div>"
+            + "<select class='" + teamClass + "'><option value='Colossus'>Colossus</option></select>" + specialAtk + "</div>"
             + "<div><h3>Bonus Action</h3><div class='actionCateBar BactionBar'></div>"
             + "<button class='atkBtn' onclick='useBonusActn(\"" + noSpace + "\")'>Use</button></div>"
             + "<div><h3>Reaction</h3><div class='actionCateBar reactionBar'></div>"
@@ -134,13 +152,9 @@ function buildCombatantCard(json, combatant) {
 
     battlers.insertBefore(newItem, battlers.childNodes[0]); // Insert <li> before the first child of <ul>
 	
-	if (topOfTheRound < inititive) {
-        topOfTheRound = inititive;
-    }
-	
     placeInInititive(); // now sort everything so it is back in inititive order
 	createMiniHeads();
-	addToPlayersTargets();
+	addToTargets();
 }
 
 function createMiniHeads() {
@@ -173,11 +187,13 @@ function addToBattleLog(newLog) {
     log.insertBefore(newItem, log.childNodes[0]); // Insert <li> before the first child of <ul>
 }
 
-function addToPlayersTargets() {
+function addToTargets() {
     var battlers = document.getElementsByClassName("combatantName");
-    var length = battlers.length;
-    var lists = document.getElementsByClassName("playerChar");
     var html = "";
+    
+    // player half
+    var lists = document.getElementsByClassName("playerChar");
+    var length = battlers.length;
 
     for (var i = 0; i < length; i++) {
         if (!battlers[i].classList.contains("pc")) {
@@ -191,19 +207,25 @@ function addToPlayersTargets() {
     for (var i = 0; i < length; i++) {
         lists[i].innerHTML = html;
     }
-
-    /*
-     var creatures = json['Creatures'];
-     var select = document.getElementById("creatureSelect");
-     
-     var length = creatures.length;
-     for (var i = 0; i < length; i++) {
-     var option = document.createElement("option");
-     option.text = creatures[i];
-     option.setAttribute("value", creatures[i]);
-     select.add(option);
-     }
-     */
+    
+    html = "";
+    
+    // monster half
+    var monsters = document.getElementsByClassName("atkTarget");
+    length = battlers.length;
+    
+    for (var i = 0; i < length; i++) {
+        if (battlers[i].classList.contains("pc")) {
+            var noSpace = combatants[battlers[i].innerText].name.replace(' ', '_');
+            var name = combatants[battlers[i].innerText].name;
+            html += "<option value='" + noSpace + "'>" + name + "</option>";
+        }
+    }
+    
+    length = monsters.length;
+    for (var i = 0; i < length; i++) {
+        monsters[i].innerHTML = html;
+    }
 }
 
 /*------------------------------------------------------------------------------
@@ -311,7 +333,6 @@ function attackIt(atckrName, atkBonus, defender, dmgDieNum, dmgDieSize, dmgBonus
  *
  *------------------------------------------------------------------------------*/
 function savingThrow(attacker, atckersElement, special, defender, defendersElement) {
-
     attacker = combatants[attacker];
     defender = combatants[defender];
 
@@ -490,6 +511,9 @@ function placeInInititive() {
             switching = true;
         }
     }
+	
+	topOfTheRound.name = belligerents[0].getElementsByClassName("combatantName")[0].innerHTML;
+    topOfTheRound.init = belligerents[0].getElementsByClassName("inititive")[0].innerHTML;
 }
 
 function checkRecharge(battlers) {
@@ -555,6 +579,11 @@ function removeCreature(creature, byBattle) {
             break;
         }
     }
+	
+	setTimeout(function () {
+            addToTargets();
+            updateTopOfTheOrder();
+    }, 1550);
 }
 
 function isFoeSlain(foeHP) {
@@ -564,10 +593,30 @@ function isFoeSlain(foeHP) {
     return false;
 }
 
+function updateTopOfTheOrder() {
+    var battlers = document.getElementById("battlers");
+    var belligerents = battlers.getElementsByTagName("LI");
+    
+    var length = belligerents.length;
+    var init = 0;
+    var target;
+    
+    for(var i = 0; i < length; i++) {
+        var test = belligerents[i].getElementsByClassName("inititive")[0].innerHTML * 1;
+        if(test > init) {
+            init = test;
+            target = i;
+        }
+    }
+    topOfTheRound.name = belligerents[target].getElementsByClassName("combatantName")[0].innerHTML;
+    topOfTheRound.init = belligerents[target].getElementsByClassName("inititive")[0].innerHTML;
+}
+
 /*------------------------------------------------------------------------------
  * modifyHealth()
  *------------------------------------------------------------------------------*/
 function modifyHealth(combatantId, healthChange) {
+	combatantId = combatantId.replace(' ', '_');
     var combatant = document.getElementById(combatantId);
 
     var health = combatant.getElementsByClassName("hpValue")[0].innerText;
